@@ -17,11 +17,13 @@ export const css = StyleSheet.create({
     fontSize: 16,
   },
   div: {
-    backgroundColor: "white",
-    position: "relative",
+    bottom: 0,
+    backgroundColor: "#FFFF",
+    padding: 20,
+    paddingHorizontal: 16,
 
+    borderRadius: 10,
     top: "50%",
-    width: 500,
     height: "100%",
   },
   logForm: {
@@ -45,12 +47,7 @@ export const css = StyleSheet.create({
     color: "#212121",
     marginBottom: 33,
   },
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#FFFFFF",
-  },
+
   input: {
     width: "100%",
     backgroundColor: "rgba(246, 246, 246, 1)",

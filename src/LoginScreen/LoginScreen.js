@@ -33,11 +33,12 @@ export const LoginScreen = () => {
   };
   const onLogin = () => {
     console.log({ name, password });
+    console.log(window);
   };
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={css.container}>
+      <View>
         <Image source={require("../Images/backgo.png")} style={cssImg.loginImage} />
         <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
           <View style={css.div}>
