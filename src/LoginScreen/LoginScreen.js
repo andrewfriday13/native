@@ -15,7 +15,7 @@ import {
 import { css } from "./LoginScreenStyle";
 import { cssImg } from "../Images/ImageStyle";
 
-import { PasswordComponents } from "./PasswordComponents";
+import { PasswordComponents } from "../components/PasswordComponents";
 export const LoginScreen = () => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -33,7 +33,6 @@ export const LoginScreen = () => {
   };
   const onLogin = () => {
     console.log({ name, password });
-    console.log(window);
   };
 
   return (

@@ -17,13 +17,11 @@ export const css = StyleSheet.create({
     fontSize: 16,
   },
   div: {
-    bottom: 0,
     backgroundColor: "#FFFF",
     padding: 20,
     paddingHorizontal: 16,
-
     borderRadius: 25,
-    top: "50%",
+    top: "40%",
     height: "100%",
   },
   logForm: {
