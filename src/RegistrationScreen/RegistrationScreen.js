@@ -45,10 +45,6 @@ export const RegistrationScreen = () => {
   };
 
   const selectImage = async () => {
-    if (imageSource) {
-      setImageSource(null);
-      return;
-    }
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
     console.log(status);
     if (status !== "granted") {
