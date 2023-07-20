@@ -1,12 +1,11 @@
 import { useState } from "react";
 import {
   View,
-  TouchableOpacity,
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
   Text,
-  Button,
+  TouchableOpacity,
   Pressable,
   KeyboardAvoidingView,
   Platform,
@@ -14,10 +13,13 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
+import { SvgXml } from "react-native-svg";
+
 import { css } from "./RegistrationScreenStyle";
 import { cssImg } from "../Images/ImageStyle";
 
 import { PasswordComponents } from "../components/PasswordComponents";
+import { addSvg, removeSvg } from "../Images/Svg";
 export const RegistrationScreen = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -46,7 +48,6 @@ export const RegistrationScreen = () => {
 
   const selectImage = async () => {
     const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
-    console.log(status);
     if (status !== "granted") {
       console.log("Дозвіл на доступ до галереї відхилено");
       return;
@@ -63,22 +64,31 @@ export const RegistrationScreen = () => {
       }
     }
   };
+  const removeImageSource = () => {
+    setImageSource(null);
+  };
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View>
         <Image source={require("../Images/backgo.png")} style={cssImg.loginImage} />
         <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
           <View style={css.div}>
-            <View>
+            <View style={css.avatar}>
               {imageSource ? (
-                <Image source={imageSource} style={{ width: 200, height: 200 }} />
+                <Image source={imageSource} style={css.regPhoto} />
               ) : (
-                <Image source={require("../Images/NoAvatar.png")} />
+                <Image source={require("../Images/NoAvatar.png")} style={css.regPhoto} />
               )}
-              <Button title="Вибрати фото" onPress={selectImage} />
+              <TouchableOpacity style={css.btnSelectImage}>
+                {!imageSource ? (
+                  <SvgXml xml={addSvg} onPress={selectImage} />
+                ) : (
+                  <SvgXml xml={removeSvg} onPress={removeImageSource} />
+                )}
+              </TouchableOpacity>
             </View>
 
-            <View style={css.logForm}>
+            <View style={css.regForm}>
               <Text style={css.titlePage}>Реєстрація</Text>
               <TextInput
                 onFocus={changeFocusedName}

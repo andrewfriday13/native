@@ -16,9 +16,28 @@ export const css = StyleSheet.create({
     fontWeight: 400,
     fontSize: 16,
   },
+  btnSelectImage: {
+    position: "absolute",
+    bottom: 14,
+    left: 107,
+  },
+  regPhoto: {
+    width: 120,
+    height: 120,
+    position: "absolute",
+    borderRadius: 16,
+  },
+  avatar: {
+    transform: [{ translateX: -50 }, { translateY: -50 }],
+    position: "absolute",
+
+    left: "50%",
+    width: 120,
+    height: 120,
+  },
   div: {
     backgroundColor: "#FFFF",
-    padding: 20,
+
     paddingHorizontal: 16,
     borderRadius: 25,
     top: "40%",
@@ -29,6 +48,13 @@ export const css = StyleSheet.create({
     width: 400,
     gap: 10,
     marginBottom: 43,
+  },
+  regForm: {
+    display: "flex",
+    width: 400,
+    gap: 10,
+    marginBottom: 43,
+    marginTop: 95,
   },
   didntHaveAcc: {
     marginLeft: "auto",
