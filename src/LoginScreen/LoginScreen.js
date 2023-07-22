@@ -1,7 +1,6 @@
 import { useState } from "react";
 import {
   View,
-  TouchableOpacity,
   TextInput,
   TouchableWithoutFeedback,
   Keyboard,
@@ -10,13 +9,14 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
+  Alert,
 } from "react-native";
 
 import { css } from "./LoginScreenStyle";
 import { cssImg } from "../Images/ImageStyle";
 
 import { PasswordComponents } from "../components/PasswordComponents";
-export const LoginScreen = () => {
+export const LoginScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
   const [isFocusName, setIsFocusName] = useState(false);
@@ -31,8 +31,24 @@ export const LoginScreen = () => {
   const changeFocusedPass = () => {
     setIsFocusPass(!isFocusPass);
   };
+  const validate = (name, pass) => {
+    const regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    const lengthName = name.length >= 3;
+    const validatePassword = regexPass.test(pass);
+
+    if (lengthName && validatePassword) {
+      console.log({ name, password });
+    } else {
+      Alert.alert("Не вірні дані", "Будь ласка перевірте правильність даних", [
+        {
+          text: "OK",
+        },
+      ]);
+    }
+  };
+
   const onLogin = () => {
-    console.log({ name, password });
+    validate(name, password);
   };
 
   return (
@@ -65,7 +81,11 @@ export const LoginScreen = () => {
             </Pressable>
             <View style={css.didntHaveAcc}>
               <Text style={css.textSignUp}>Немає акаунту? </Text>
-              <Pressable>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("Registation");
+                }}
+              >
                 <Text style={css.textSignUpBtn}>Зареєстуватись</Text>
               </Pressable>
             </View>

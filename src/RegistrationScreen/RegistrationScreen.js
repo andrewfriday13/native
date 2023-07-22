@@ -10,6 +10,7 @@ import {
   KeyboardAvoidingView,
   Platform,
   Image,
+  Alert,
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 
@@ -20,7 +21,8 @@ import { cssImg } from "../Images/ImageStyle";
 
 import { PasswordComponents } from "../components/PasswordComponents";
 import { addSvg, removeSvg } from "../Images/Svg";
-export const RegistrationScreen = () => {
+
+export const RegistrationScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -42,8 +44,36 @@ export const RegistrationScreen = () => {
   const changeFocusedEmail = () => {
     setIsFocusEmail(!isFocusEmail);
   };
+  const validate = (name, email, pass) => {
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    const validateEmail = emailRegex.test(email);
+    const regexPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    const lengthName = name.length >= 3;
+    const validatePassword = regexPass.test(pass);
+
+    if (!lengthName) {
+      return Alert.alert("Не допустима довжина", "Довжині імені не менше 3 символів", [
+        {
+          text: "OK",
+        },
+      ]);
+    } else if (!validateEmail) {
+      return Alert.alert("Не коректний Email", "Приклад: examle@mail.com", [
+        {
+          text: "OK",
+        },
+      ]);
+    } else if (!validatePassword) {
+      return Alert.alert("Не коректний Пароль", "шось не вірно ", [
+        {
+          text: "OK",
+        },
+      ]);
+    }
+  };
   const onLogin = () => {
-    console.log({ name, password, email });
+    validate(name, email, password);
+    console.log("success");
   };
 
   const selectImage = async () => {
@@ -119,8 +149,12 @@ export const RegistrationScreen = () => {
               <Text style={css.textLogBtn}>Зареєстуватись</Text>
             </Pressable>
             <View style={css.didntHaveAcc}>
-              <Text style={css.textSignUp}>Вже є акаутн? </Text>
-              <Pressable>
+              <Text style={css.textSignUp}>Вже є акаунт? </Text>
+              <Pressable
+                onPress={() => {
+                  navigation.navigate("Login");
+                }}
+              >
                 <Text style={css.textSignUpBtn}>Увійти</Text>
               </Pressable>
             </View>
