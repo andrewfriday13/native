@@ -17,10 +17,10 @@ import * as ImagePicker from "expo-image-picker";
 import { SvgXml } from "react-native-svg";
 
 import { css } from "./RegistrationScreenStyle";
-import { cssImg } from "../Images/ImageStyle";
+import { cssImg } from "../../../Images/ImageStyle";
 
-import { PasswordComponents } from "../components/PasswordComponents";
-import { addSvg, removeSvg } from "../Images/Svg";
+import { PasswordComponents } from "../../../components/PasswordComponents";
+import { addSvg, removeSvg } from "../../../Images/Svg";
 
 export const RegistrationScreen = ({ navigation }) => {
   const [name, setName] = useState("");
@@ -72,8 +72,10 @@ export const RegistrationScreen = ({ navigation }) => {
     }
   };
   const onLogin = () => {
-    validate(name, email, password);
-    console.log("success");
+    if (validate(name, email, password)) {
+      navigation.navigate("Home", { name, email });
+      console.log("success");
+    }
   };
 
   const selectImage = async () => {
@@ -100,14 +102,14 @@ export const RegistrationScreen = ({ navigation }) => {
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View>
-        <Image source={require("../Images/backgo.png")} style={cssImg.loginImage} />
+        <Image source={require("../../../Images/backgo.png")} style={cssImg.loginImage} />
         <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
           <View style={css.div}>
             <View style={css.avatar}>
               {imageSource ? (
                 <Image source={imageSource} style={css.regPhoto} />
               ) : (
-                <Image source={require("../Images/NoAvatar.png")} style={css.regPhoto} />
+                <Image source={require("../../../Images/NoAvatar.png")} style={css.regPhoto} />
               )}
               <TouchableOpacity style={css.btnSelectImage}>
                 {!imageSource ? (

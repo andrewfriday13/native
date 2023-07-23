@@ -13,9 +13,9 @@ import {
 } from "react-native";
 
 import { css } from "./LoginScreenStyle";
-import { cssImg } from "../Images/ImageStyle";
+import { cssImg } from "../../../Images/ImageStyle";
 
-import { PasswordComponents } from "../components/PasswordComponents";
+import { PasswordComponents } from "../../../components/PasswordComponents";
 export const LoginScreen = ({ navigation }) => {
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -37,7 +37,7 @@ export const LoginScreen = ({ navigation }) => {
     const validatePassword = regexPass.test(pass);
 
     if (lengthName && validatePassword) {
-      console.log({ name, password });
+      return true;
     } else {
       Alert.alert("Не вірні дані", "Будь ласка перевірте правильність даних", [
         {
@@ -48,13 +48,17 @@ export const LoginScreen = ({ navigation }) => {
   };
 
   const onLogin = () => {
-    validate(name, password);
+    if (validate(name, password)) {
+      setName("");
+      setPassword("");
+      navigation.navigate("Home", { name });
+      console.log("success");
+    }
   };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View>
-        <Image source={require("../Images/backgo.png")} style={cssImg.loginImage} />
+        <Image source={require("../../../Images/backgo.png")} style={cssImg.loginImage} />
         <KeyboardAvoidingView behavior={Platform.OS == "ios" ? "padding" : "height"}>
           <View style={css.div}>
             <View style={css.logForm}>
@@ -64,7 +68,7 @@ export const LoginScreen = ({ navigation }) => {
                 onBlur={changeFocusedName}
                 value={name}
                 onChangeText={nameHandler}
-                placeholder="Username"
+                placeholder="User name"
                 style={[css.input, isFocusName && css.inputFocused]}
               />
               <PasswordComponents
