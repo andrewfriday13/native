@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "./src/pages/HomeScreen/HomeScreen";
 import { Auth } from "./src/pages/auth/Auth";
-import { LogoutComponent } from "./src/components/LogoutBtn";
 import { ProfileComponent } from "./src/pages/ProfileScreen/ProfileScreen";
 
 const MainStack = createStackNavigator();
@@ -18,7 +17,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Login">
+      <MainStack.Navigator initialRouteName="Login" screenOptions={{ gestureEnabled: false }}>
         <MainStack.Screen options={{ headerShown: false }} name="Auth" component={Auth} />
         <MainStack.Screen
           options={{

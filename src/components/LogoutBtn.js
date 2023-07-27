@@ -1,9 +1,11 @@
+import { useNavigation } from "@react-navigation/native";
 import { Pressable, StyleSheet } from "react-native";
 import Logout from "react-native-vector-icons/Feather";
 
 export const LogoutComponent = () => {
+  const navigation = useNavigation();
   const LogOut = () => {
-    console.log("Log Out");
+    navigation.navigate("Login");
   };
   return (
     <Pressable onPress={LogOut}>
