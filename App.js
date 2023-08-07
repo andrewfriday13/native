@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "./src/pages/HomeScreen/HomeScreen";
 import { Auth } from "./src/pages/auth/Auth";
-import { ProfileComponent } from "./src/pages/ProfileScreen/ProfileScreen";
+// import { ProfileComponent } from "./src/pages/ProfileScreen/ProfileScreen";
 
 const MainStack = createStackNavigator();
 
@@ -17,7 +17,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <MainStack.Navigator initialRouteName="Login" screenOptions={{ gestureEnabled: false }}>
+      <MainStack.Navigator initialRouteName="Home" screenOptions={{ gestureEnabled: false }}>
         <MainStack.Screen options={{ headerShown: false }} name="Auth" component={Auth} />
         <MainStack.Screen
           options={{
@@ -31,14 +31,14 @@ export default function App() {
           name="Home"
           component={HomeScreen}
         />
-        <MainStack.Screen
+        {/* <MainStack.Screen
           component={ProfileComponent}
           name="Profile"
           options={{
             headerShown: false,
             headerLeft: null,
           }}
-        />
+        /> */}
       </MainStack.Navigator>
     </NavigationContainer>
   );

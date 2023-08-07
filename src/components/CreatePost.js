@@ -1,32 +1,47 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from "react-native";
+import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, Pressable } from "react-native";
 import { Camera, CameraType } from "expo-camera";
+
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useState } from "react";
 
-export const CreatePost = () => {
+export const CreatePost = ({ getDataPosts }) => {
   const [getPhoto, setGetPhoto] = useState(null);
   const [photo, setPhoto] = useState(null);
+  const [type, setType] = useState(CameraType.back);
+  const [data, setData] = useState([]);
 
+  const [namePlace, setNamePlace] = useState("");
+  const [location, setLocation] = useState("");
   const takePhoto = async () => {
     const photo = await getPhoto.takePictureAsync();
     setPhoto(photo.uri);
   };
+  const updateData = () => {
+    getDataPosts(data);
+  };
+  const nameHandler = (text) => setNamePlace(text);
+
   return (
-    <>
-      <View style={css.container}>
-        <Camera style={css.camera} ref={setGetPhoto}>
-          {photo && (
-            <View>
-              <Image source={{ uri: photo }} style={{ height: 200, width: 200 }} />
-            </View>
-          )}
+    <View style={css.container}>
+      {photo ? (
+        <View>
+          <Image source={{ uri: photo }} style={{ height: 240, width: "100%" }} />
+        </View>
+      ) : (
+        <Camera type={type} style={css.camera} ref={setGetPhoto}>
           <TouchableOpacity onPress={takePhoto} style={css.iconCamera}>
             <MaterialIcons name="photo-camera" color={"#BDBDBD"} size={24} />
           </TouchableOpacity>
         </Camera>
-        <Text>dsdfd</Text>
-      </View>
-    </>
+      )}
+      <Text>dsdfd</Text>
+
+      <TextInput value={namePlace} onChangeText={nameHandler} placeholder="Назва" />
+      <TextInput value={namePlace} onChangeText={nameHandler} placeholder="Локація" />
+      <TouchableOpacity onPress={updateData}>
+        <Text>Опублікувати</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 const css = StyleSheet.create({
