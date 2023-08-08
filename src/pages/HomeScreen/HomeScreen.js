@@ -1,12 +1,12 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Pressable, StyleSheet, Text, View, FlatList } from "react-native";
 import AntDesign from "react-native-vector-icons/AntDesign";
 import SimpleLineIcons from "react-native-vector-icons/SimpleLineIcons";
 import Ionicons from "react-native-vector-icons/Ionicons";
 import { LogoutComponent } from "../../components/LogoutBtn";
 import { useState } from "react";
 import { CreatePost } from "../../components/CreatePost";
-import { Camera, CameraType } from "expo-camera";
+import { PostsComponent } from "../../components/PostsComponent";
 
 const Tab = createBottomTabNavigator();
 
@@ -16,15 +16,18 @@ export const HomeScreen = () => {
   const Post = () => {
     return (
       <View style={styles.postScreen}>
-        <Text>Публікаціїї</Text>
+        <FlatList
+          data={dataPosts}
+          renderItem={({ item }) => {
+            return <Text>{item.namePlace}</Text>;
+          }}
+        />
       </View>
     );
   };
-
+  // console.log(dataPosts);
   const getDataPosts = (data) => {
-    setDataPosts((prev) => {
-      [...prev, data];
-    });
+    setDataPosts((prev) => [...prev, data]);
   };
   const Profile = () => {
     return (
@@ -46,7 +49,6 @@ export const HomeScreen = () => {
         {Tabs ? (
           <Tab.Screen
             name="CreatePost"
-            component={CreatePost}
             options={{
               title: "Створити публікацію",
               headerLeft: () => (
@@ -61,21 +63,19 @@ export const HomeScreen = () => {
               tabBarLabel: null,
               tabBarShowLabel: false,
               tabBarIcon: () => (
-                <Pressable
-                  style={styles.svgAdd}
-                  onPress={() => {
-                    console.log("delete");
-                  }}
-                >
+                <Pressable style={styles.svgAdd} onPress={() => console.log("delete")}>
                   <AntDesign name="delete" size={26} color={"white"} />
                 </Pressable>
               ),
             }}
-          />
+          >
+            {() => <CreatePost getDataPosts={getDataPosts} />}
+          </Tab.Screen>
         ) : (
           <>
             <Tab.Screen
               name="Post"
+              // component={Post}
               options={{
                 title: "Публікації",
                 tabBarLabel: null,
@@ -84,8 +84,9 @@ export const HomeScreen = () => {
                 tabBarIcon: () => <SimpleLineIcons name="grid" color={"#212121"} size={20} />,
               }}
             >
-              {() => <Post getDataPosts={getDataPosts} />}
+              {() => <PostsComponent dataPosts={dataPosts} />}
             </Tab.Screen>
+
             <Tab.Screen
               name="Create"
               component={Post}

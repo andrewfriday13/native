@@ -1,5 +1,7 @@
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, Image, Pressable } from "react-native";
+import { StyleSheet, Text, View, Platform, Alert, TouchableOpacity, TextInput, Image, Pressable } from "react-native";
 import { Camera, CameraType } from "expo-camera";
+import * as Location from "expo-location";
+import Device from "expo-device";
 
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import { useState } from "react";
@@ -8,18 +10,45 @@ export const CreatePost = ({ getDataPosts }) => {
   const [getPhoto, setGetPhoto] = useState(null);
   const [photo, setPhoto] = useState(null);
   const [type, setType] = useState(CameraType.back);
-  const [data, setData] = useState([]);
 
   const [namePlace, setNamePlace] = useState("");
-  const [location, setLocation] = useState("");
+  const [location, setLocation] = useState(null);
+  const [errorMsg, setErrorMsg] = useState(null);
+
+  const nameHandler = (text) => setNamePlace(text);
+  const placeHandler = (text) => setLocation(text);
+
   const takePhoto = async () => {
     const photo = await getPhoto.takePictureAsync();
     setPhoto(photo.uri);
+    if (Platform.OS === "android" && !Device.isDevice) {
+      setErrorMsg("Oops, this will not work on Snack in an Android Emulator. Try it on your device!");
+      return;
+    }
+    let { status } = await Location.requestForegroundPermissionsAsync();
+    if (status !== "granted") {
+      setErrorMsg("Permission to access location was denied");
+      return;
+    }
+
+    let location = await Location.getCurrentPositionAsync({});
+    setLocation(location);
   };
   const updateData = () => {
-    getDataPosts(data);
+    if (!namePlace || !location || !photo) {
+      return Alert.alert("Помилка", "Заповіть всі поля");
+    }
+    getDataPosts({
+      photo,
+      namePlace,
+      location,
+    });
+    setNamePlace("");
+    setLocation("");
+    //   if (photo || namePlace || location) {
+    //     setIsDisabled(!true);
+    //   }
   };
-  const nameHandler = (text) => setNamePlace(text);
 
   return (
     <View style={css.container}>
@@ -34,10 +63,10 @@ export const CreatePost = ({ getDataPosts }) => {
           </TouchableOpacity>
         </Camera>
       )}
-      <Text>dsdfd</Text>
+      <Text>Завантажте фото </Text>
 
       <TextInput value={namePlace} onChangeText={nameHandler} placeholder="Назва" />
-      <TextInput value={namePlace} onChangeText={nameHandler} placeholder="Локація" />
+      <TextInput value={JSON.stringify(location)} onChangeText={placeHandler} placeholder="Локація" />
       <TouchableOpacity onPress={updateData}>
         <Text>Опублікувати</Text>
       </TouchableOpacity>
@@ -65,6 +94,7 @@ const css = StyleSheet.create({
   container: {
     paddingTop: 32,
     paddingHorizontal: 16,
+    backgroundColor: "#FFFFFF",
     flex: 1,
   },
 });
