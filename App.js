@@ -3,7 +3,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "./src/pages/HomeScreen/HomeScreen";
 import { Auth } from "./src/pages/auth/Auth";
-// import { ProfileComponent } from "./src/pages/ProfileScreen/ProfileScreen";
 
 const MainStack = createStackNavigator();
 
@@ -31,14 +30,6 @@ export default function App() {
           name="Home"
           component={HomeScreen}
         />
-        {/* <MainStack.Screen
-          component={ProfileComponent}
-          name="Profile"
-          options={{
-            headerShown: false,
-            headerLeft: null,
-          }}
-        /> */}
       </MainStack.Navigator>
     </NavigationContainer>
   );

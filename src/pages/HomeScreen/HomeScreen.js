@@ -7,25 +7,16 @@ import { LogoutComponent } from "../../components/LogoutBtn";
 import { useState } from "react";
 import { CreatePost } from "../../components/CreatePost";
 import { PostsComponent } from "../../components/PostsComponent";
+import { useNavigation } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
 export const HomeScreen = () => {
+  const navigation = useNavigation();
+
   const [Tabs, setTabs] = useState(false);
   const [dataPosts, setDataPosts] = useState([]);
-  const Post = () => {
-    return (
-      <View style={styles.postScreen}>
-        <FlatList
-          data={dataPosts}
-          renderItem={({ item }) => {
-            return <Text>{item.namePlace}</Text>;
-          }}
-        />
-      </View>
-    );
-  };
-  // console.log(dataPosts);
+
   const getDataPosts = (data) => {
     setDataPosts((prev) => [...prev, data]);
   };
@@ -54,6 +45,7 @@ export const HomeScreen = () => {
               headerLeft: () => (
                 <Pressable
                   onPress={() => {
+                    console.log(Tabs);
                     setTabs(!Tabs);
                   }}
                 >
@@ -63,7 +55,7 @@ export const HomeScreen = () => {
               tabBarLabel: null,
               tabBarShowLabel: false,
               tabBarIcon: () => (
-                <Pressable style={styles.svgAdd} onPress={() => console.log("delete")}>
+                <Pressable style={styles.svgAdd}>
                   <AntDesign name="delete" size={26} color={"white"} />
                 </Pressable>
               ),
@@ -75,7 +67,6 @@ export const HomeScreen = () => {
           <>
             <Tab.Screen
               name="Post"
-              // component={Post}
               options={{
                 title: "Публікації",
                 tabBarLabel: null,
@@ -89,18 +80,25 @@ export const HomeScreen = () => {
 
             <Tab.Screen
               name="Create"
-              component={Post}
+              component={CreatePost}
               options={{
+                title: "Створити публікацію",
                 tabBarLabel: null,
                 tabBarShowLabel: false,
                 tabBarIcon: () => (
                   <Pressable
-                    style={styles.svgAdd}
-                    onPress={() => {
-                      setTabs(!Tabs);
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      flex: 1,
+                      alignItems: "center",
+                      justifyContent: "center",
                     }}
+                    onPress={() => setTabs(!Tabs)}
                   >
-                    <Ionicons name="add-sharp" size={26} color={"white"} />
+                    <View style={styles.svgAdd}>
+                      <Ionicons name="add-sharp" size={26} color={"white"} />
+                    </View>
                   </Pressable>
                 ),
               }}
@@ -118,6 +116,7 @@ export const HomeScreen = () => {
             />
           </>
         )}
+        {/* зробити ще один екран  для коментарів і при натиску на коментс переводити на цей екран */}
       </Tab.Navigator>
     </View>
   );
@@ -126,6 +125,7 @@ export const HomeScreen = () => {
 const styles = StyleSheet.create({
   svgAdd: {
     backgroundColor: "#FF6C00",
+
     display: "flex",
     alignItems: "center",
     justifyContent: "center",

@@ -1,23 +1,30 @@
-import { FlatList, View, Text, Image, StyleSheet } from "react-native";
+import { FlatList, View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import { Posts } from "./Post";
+
+const MainStack = createStackNavigator();
 
 export const PostsComponent = ({ dataPosts }) => {
+  const navigation = useNavigation();
+
+  const Comment = () => {
+    return (
+      <View>
+        <Text>Привіт</Text>
+      </View>
+    );
+  };
   return (
-    <View>
-      <FlatList
-        data={dataPosts}
-        renderItem={({ item }) => {
-          return (
-            <View style={css.container}>
-              <View style={css.post}>
-                <Image source={{ uri: item.photo }} style={css.postImage} />
-                <Text>{item.namePlace}</Text>
-                <Text>{JSON.stringify(item.location)}</Text>
-              </View>
-            </View>
-          );
-        }}
-      />
-    </View>
+    <NavigationContainer independent={true}>
+      <MainStack.Navigator>
+        <MainStack.Screen name="Post" options={{ headerShown: false }}>
+          {() => <Posts dataPosts={dataPosts} />}
+        </MainStack.Screen>
+        <MainStack.Screen component={Comment} name="Comment" options={{ headerShown: false }} />
+      </MainStack.Navigator>
+    </NavigationContainer>
   );
 };
 const css = StyleSheet.create({
