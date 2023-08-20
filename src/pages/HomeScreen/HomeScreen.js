@@ -7,16 +7,19 @@ import { LogoutComponent } from "../../components/LogoutBtn";
 import { useState } from "react";
 import { CreatePost } from "../../components/CreatePost";
 import { PostsComponent } from "../../components/PostsComponent";
-import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
 const Tab = createBottomTabNavigator();
 
 export const HomeScreen = () => {
-  const navigation = useNavigation();
-
   const [Tabs, setTabs] = useState(false);
   const [dataPosts, setDataPosts] = useState([]);
+  const [pageTitle, setPageTitle] = useState(null);
+  const route = useRoute();
 
+  const dataTitlePage = (data) => {
+    setPageTitle(data);
+  };
   const getDataPosts = (data) => {
     setDataPosts((prev) => [...prev, data]);
   };
@@ -116,7 +119,20 @@ export const HomeScreen = () => {
             />
           </>
         )}
+
         {/* зробити ще один екран  для коментарів і при натиску на коментс переводити на цей екран */}
+        {/* <Tab.Screen
+          name="Co"
+          options={{
+            title: "Коментарі",
+            tabBarIcon: () => null,
+          }}
+          component={() => {
+            <View>
+              <Text>hi</Text>
+            </View>;
+          }}
+        /> */}
       </Tab.Navigator>
     </View>
   );

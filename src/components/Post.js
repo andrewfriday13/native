@@ -1,8 +1,10 @@
 import { FlatList, View, Text, Image, StyleSheet, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 
 export const Posts = ({ dataPosts }) => {
   const navigation = useNavigation();
+  const route = useRoute();
 
   return (
     <View>
@@ -17,8 +19,8 @@ export const Posts = ({ dataPosts }) => {
                 <Text>Location</Text>
                 <TouchableOpacity
                   onPress={() => {
+                    console.log(route);
                     navigation.navigate("Comment");
-                    console.log("Com");
                   }}
                 >
                   <Text>Coments</Text>
